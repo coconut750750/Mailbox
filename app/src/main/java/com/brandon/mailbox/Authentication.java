@@ -41,6 +41,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+test
+**/
+
 public class Authentication extends AppCompatActivity {
 
     public final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
