@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "866596071562",
+    "firebase_url": "https://messenger-9a197.firebaseio.com",
+    "project_id": "messenger-9a197",
+    "storage_bucket": "messenger-9a197.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866596071562:android:5d010372e58a04ec",
+        "android_client_info": {
+          "package_name": "com.brandon.mailbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866596071562-jnsls9aslnrvaetesl4k53t78fvkcq5l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandon.mailbox",
+            "certificate_hash": "B86356DCC02331FE5AA2D8DA347034AB3EB8536D"
+          }
+        },
+        {
+          "client_id": "866596071562-g7pnlhl8fv8jv5iurpgcqitrio42occ0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2HyP80pSnn3IrGGucvYoz7NZ1zrVqZKQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

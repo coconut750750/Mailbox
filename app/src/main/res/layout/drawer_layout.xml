@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_below="@+id/drawer_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:weightSum="1.5"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nvView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/primary_material_light"
+        app:headerLayout="@layout/drawer_header"
+        android:layout_weight="1">
+        <!--app:menu="@menu/drawer_view"-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/header_height">
+
+            <TextView
+                android:id="@+id/fav_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Favorites"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/content_areas"
+                android:layout_marginLeft="16dp"/>
+
+            <ListView
+                android:id="@+id/navigation_fav_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fav_sub"
+                />
+
+            <TextView
+                android:id="@+id/rec_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Recents"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/content_areas"
+                android:layout_marginLeft="16dp"
+                android:layout_below="@+id/navigation_fav_list"/>
+
+            <TextView
+                android:id="@+id/prof_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/content_areas"
+                android:layout_marginLeft="16dp"
+                android:layout_below="@+id/rec_sub"/>
+
+        </RelativeLayout>
+    </android.support.design.widget.NavigationView>
+
+</LinearLayout>
