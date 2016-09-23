@@ -19,8 +19,12 @@ public class ChatSwipeAdapter extends FragmentStatePagerAdapter{
     public Fragment getItem(int position) {
         Fragment fragment;
         fragment = new ChatPrivateFragment();
-        String uid = MainActivity.chatNames.get(position);
+        String uid = MainActivity.chatNames.get(position).trim();
         String name = MainActivity.allUsers.get(uid);
+        if(name == null){
+            name = MainActivity.allUsers.get(uid+ChatActivity.SEPARATOR);
+        }
+
         Bundle b = new Bundle();
         b.putString("NAME",name);
         b.putString("UID",uid);

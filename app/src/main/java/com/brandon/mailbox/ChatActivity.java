@@ -1,47 +1,19 @@
 package com.brandon.mailbox;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -77,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
         name = intent.getStringExtra("NAME");
         uid = intent.getStringExtra("UID");
 
+
         setTitle(name+titleSep);
 
         //getting view pager
@@ -89,7 +62,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                String uid = MainActivity.chatNames.get(position);
+                String uid = MainActivity.chatNames.get(position).trim();
                 setTitle(MainActivity.allUsers.get(uid)+ChatActivity.titleSep);
                 /*t = new Thread() {
                     @Override
@@ -131,7 +104,11 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         viewPager.setAdapter(swipeAdapter);
-        viewPager.setCurrentItem(MainActivity.chatNames.indexOf(uid));
+        int item = MainActivity.chatNames.indexOf(uid);
+        if (item == -1){
+            item = MainActivity.chatNames.indexOf(uid+ChatActivity.SEPARATOR);
+        }
+        viewPager.setCurrentItem(item);
 
     }
 
@@ -208,5 +185,9 @@ public class ChatActivity extends AppCompatActivity {
     }
     public static String getSender(String message){
         return message.substring(message.indexOf(SEPARATOR)+1,message.lastIndexOf(SEPARATOR));
+    }
+
+    public static boolean isSecret(String uid){
+        return MainActivity.chatNames.contains(SEPARATOR);
     }
 }

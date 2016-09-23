@@ -2,12 +2,14 @@ package com.brandon.mailbox;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
                     Context context = cardView.getContext();
                     TextView tv = (TextView) cardView.findViewById(R.id.info_text);
 
-                    String uid = chats.get(getAdapterPosition());
+                    String uid = chats.get(getAdapterPosition()).trim();
                     context.startActivity(MainActivity.chatActivity(context, uid));
                     ((Activity)context).overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out);
                 }
@@ -54,11 +56,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         CardView cardView = holder.cardView;
 
         TextView textView = (TextView)cardView.findViewById(R.id.info_text);
-        String uid = chats.get(position);
+        String uid = chats.get(position).trim();
 
         String name = MainActivity.allUsers.get(uid);
-        textView.setText(name);
 
+        RelativeLayout relativeLayout = (RelativeLayout)cardView.findViewById(R.id.contact_card_background);
+
+        if(chats.get(position).contains(ChatActivity.SEPARATOR)){
+            relativeLayout.setBackground(cardView.getContext().getResources().getDrawable(R.drawable.contact_item_border_dark));
+        } else {
+            relativeLayout.setBackground(cardView.getContext().getResources().getDrawable(R.drawable.contact_item_border));
+        }
+
+        textView.setText(name);
     }
 
     @Override

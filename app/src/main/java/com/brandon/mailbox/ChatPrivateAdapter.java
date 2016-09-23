@@ -2,6 +2,7 @@ package com.brandon.mailbox;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +55,10 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         }
     }
 
-    public ChatPrivateAdapter (ArrayList<String> messages){
+    public ChatPrivateAdapter (ArrayList<String> messages, boolean secretOn){
         this.messages = messages;
         this.oppositePos = -1;
-        secretOn = false;
+        this.secretOn = secretOn;
     }
 
     @Override
@@ -74,10 +75,16 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         String currentMsg = messages.get(position);
         currentMsg = currentMsg.replace("\\n","\n");
 
-        boolean sent = ChatActivity.getSender(currentMsg).equals(MainActivity.uid);
+        String sender = ChatActivity.getSender(currentMsg);
+        boolean permSecret = sender.contains(ChatActivity.SEPARATOR);
+        if (permSecret){
+            sender = sender.trim();
+        }
+
+        boolean sent = sender.equals(MainActivity.uid);
         String textMsg = ChatActivity.getMessage(currentMsg);
         holder.original = textMsg;
-        if(oppositePos != position && secretOn){
+        if(oppositePos != position && secretOn || permSecret){
             textMsg = hidden(textMsg);
         }
 

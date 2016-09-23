@@ -46,6 +46,7 @@ public class ChatPrivateFragment extends Fragment {
     public Button sendMsg;
     public EditText editMsg;
     public Button toggleSecret;
+    public Button secretSend;
 
     public RecyclerView mRecyclerView;
     public ChatPrivateAdapter chatPrivateAdapter;
@@ -79,6 +80,7 @@ public class ChatPrivateFragment extends Fragment {
 
         sendMsg = (Button)view.findViewById(R.id.sendMessage);
         editMsg = (EditText)view.findViewById(R.id.editMessage);
+        secretSend = (Button)view.findViewById(R.id.secretSendMessage);
         toggleSecret = (Button)view.findViewById(R.id.toggleSecret);
         editMsg.setInputType(InputType.TYPE_CLASS_TEXT);
 
@@ -89,20 +91,40 @@ public class ChatPrivateFragment extends Fragment {
             }
         });
 
-        sendMsg.setOnTouchListener(new View.OnTouchListener() {
+        sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 String msg = editMsg.getText().toString();
                 if (!msg.equals("")){
                     sendMessage(msg);
                 }
-                return true;
+            }
+        });
+        secretSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String msg = editMsg.getText().toString();
+                if (!msg.equals("")) {
+                    secretSendMessage(msg);
+                }
             }
         });
 
+        boolean secretOn = false;
+
+        for(int i = 0; i < MainActivity.chatNames.size(); i++){
+            if(MainActivity.chatNames.get(i).trim().equals(uid)){
+                secretOn = MainActivity.chatNames.get(i).contains(ChatActivity.SEPARATOR);
+                break;
+            }
+        }
+
         chatMap = new ArrayList<>();
         newChatMap = new ArrayList<>();
-        chatPrivateAdapter = new ChatPrivateAdapter(chatMap);
+        chatPrivateAdapter = new ChatPrivateAdapter(chatMap, secretOn);
+        if(secretOn){
+            editMsg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
 
         sendToRef = MainActivity.mRootRef.child(MainActivity.FirebaseUserList).child(uid).child("Chats").child(MainActivity.uid);
 
@@ -221,6 +243,10 @@ public class ChatPrivateFragment extends Fragment {
         return view;
     }
 
+    public void secretSendMessage(String msg){
+        sendMessage(ChatActivity.SEPARATOR+msg);
+    }
+
     public void sendMessage(String msg){
         msg = msg.replace("\n","\\n");
 
@@ -308,12 +334,33 @@ public class ChatPrivateFragment extends Fragment {
     }
 
     public void toggleSecret(){
+
         chatPrivateAdapter.toggleSecret();
+        String toAdd;
+
         if (editMsg.getInputType() == InputType.TYPE_CLASS_TEXT){
             editMsg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            for(int i = 0; i < MainActivity.chatNames.size(); i++){
+                if(MainActivity.chatNames.get(i).equals(uid)){
+                    toAdd = MainActivity.chatNames.get(i)+"\t";
+                    MainActivity.chatNames.set(i, toAdd);
+                    MainActivity.addChatToFile(toAdd);
+                    break;
+                }
+            }
         }
         else{
             editMsg.setInputType(InputType.TYPE_CLASS_TEXT);
+            for(int i = 0; i < MainActivity.chatNames.size(); i++){
+                if(MainActivity.chatNames.get(i).trim().equals(uid)){
+                    toAdd = MainActivity.chatNames.get(i).trim();
+                    MainActivity.chatNames.set(i, toAdd);
+                    MainActivity.addChatToFile(toAdd);
+                    break;
+                }
+            }
         }
+        MainActivity.chatsAdapter.notifyDataSetChanged();
+
     }
 }

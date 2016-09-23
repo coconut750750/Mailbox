@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, Object> data = dataSnapshot.getValue(t);
                 if (data != null) {
                     for (String name : data.keySet()) {
-                        if (!chatNames.contains(name)) {
+                        if (!chatNames.contains(name) || !chatNames.contains(name+ChatActivity.SEPARATOR)) {
                             chatNames.add(name);
                             addChatToFile(name);
                         }
@@ -427,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
             chatNames.add(uid);
             addChatToFile(uid);
         }
+
         chatsAdapter.notifyDataSetChanged();
     }
 
@@ -435,10 +436,18 @@ public class MainActivity extends AppCompatActivity {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(chatListFile));
             String line;
             String result = "";
+            boolean added = false;
             while ((line = bufferedReader.readLine()) != null) {
-                result = result + line + "\n";
+                if(line.trim().equals(name.trim())){
+                    result = result + name + "\n";
+                    added = true;
+                } else {
+                    result = result + line + "\n";
+                }
             }
-            result = result + name + "\n";
+            if (!added) {
+                result = result + name + "\n";
+            }
 
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(chatListFile));
             bufferedWriter.write(result);
@@ -459,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(chatListFile));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                chatNames.add(line.trim());
+                chatNames.add(line);
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {
@@ -469,17 +478,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String getUID(String name){
-        for(String uid : allUsers.keySet()){
-            if(allUsers.get(uid).equals(name)){
-                return uid;
-            }
-        }
-        return null;
-    }
-
     public static Intent chatActivity(Context context, String uid){
         String name = MainActivity.allUsers.get(uid);
+        if(name == null){
+            name = MainActivity.allUsers.get(uid+ChatActivity.SEPARATOR);
+        }
         Intent intent = new Intent(context, ChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
