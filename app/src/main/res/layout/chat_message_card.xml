@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="0dp"
-        android:background="@drawable/contact_item_border">
+        android:id="@+id/chat_message_card_background">
         <TextView
             android:id="@+id/info_text"
             android:layout_marginLeft="25dp"

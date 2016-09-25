@@ -6,14 +6,13 @@
     tools:context="com.brandon.mailbox.ChatActivity">
 
     <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/chat_messages_recycler"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/message_layout"
         android:overScrollMode="never"
-        android:background="@color/primary_material_light"/>
+        android:background="@color/primary_material_light" />
 
     <LinearLayout
         android:id="@+id/message_layout"

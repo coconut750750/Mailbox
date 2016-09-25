@@ -3,6 +3,7 @@ package com.brandon.mailbox;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,9 +64,9 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         RelativeLayout relativeLayout = (RelativeLayout)cardView.findViewById(R.id.contact_card_background);
 
         if(chats.get(position).contains(ChatActivity.SEPARATOR)){
-            relativeLayout.setBackground(cardView.getContext().getResources().getDrawable(R.drawable.contact_item_border_dark));
+            relativeLayout.setBackground(ResourcesCompat.getDrawable(textView.getContext().getResources(), R.drawable.contact_item_border_dark, null));
         } else {
-            relativeLayout.setBackground(cardView.getContext().getResources().getDrawable(R.drawable.contact_item_border));
+            relativeLayout.setBackground(ResourcesCompat.getDrawable(textView.getContext().getResources(), R.drawable.contact_item_border, null));
         }
 
         textView.setText(name);

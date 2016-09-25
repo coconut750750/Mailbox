@@ -1,37 +1,45 @@
 package com.brandon.mailbox;
 
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
+/***
  * Created by Brandon on 6/24/16.
  */
 public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.ViewHolder>{
 
     private ArrayList<String> messages;
-    int oppositePos;
+    private int oppositePos;
     private boolean secretOn;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
         private TextView textView;
         private TextView timeTextView;
+        private LinearLayout linearLayout;
         public String original;
 
         public ViewHolder(CardView v) {
             super(v);
             cardView = v;
+            linearLayout = (LinearLayout)v.findViewById(R.id.chat_message_card_background);
 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    EditText editMsg = (EditText)v.getRootView().findViewById(R.id.editMessage);
+
+                    ChatPrivateFragment.clearEditText(editMsg, v.getContext(), v.getRootView());
                     int previousPosition = oppositePos;
                     int position = getAdapterPosition();
 
@@ -48,7 +56,6 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
                         notifyItemChanged(previousPosition);
                 }
             });
-
 
             textView = (TextView)cardView.findViewById(R.id.info_text);
             timeTextView = (TextView)cardView.findViewById(R.id.time);
@@ -86,6 +93,9 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         holder.original = textMsg;
         if(oppositePos != position && secretOn || permSecret){
             textMsg = hidden(textMsg);
+            holder.linearLayout.setBackground(ResourcesCompat.getDrawable(textView.getContext().getResources(), R.drawable.contact_item_border_dark, null));
+        } else {
+            holder.linearLayout.setBackground(ResourcesCompat.getDrawable(textView.getContext().getResources(), R.drawable.contact_item_border, null));
         }
 
         if(sent){

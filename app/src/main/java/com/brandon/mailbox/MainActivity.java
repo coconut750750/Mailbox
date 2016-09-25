@@ -466,9 +466,12 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(chatListFile));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                chatNames.add(line);
+            String uid;
+            while ((uid = bufferedReader.readLine()) != null) {
+                if(!chatNames.contains(uid))
+                {
+                    chatNames.add(uid);
+                }
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {

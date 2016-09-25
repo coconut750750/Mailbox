@@ -1,5 +1,6 @@
 package com.brandon.mailbox;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -177,9 +179,24 @@ public class ChatPrivateFragment extends Fragment {
         mRecyclerView.setAdapter(chatPrivateAdapter);
         chatPrivateAdapter.notifyDataSetChanged();
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+            boolean scrolled = false;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                chatPrivateAdapter.unflip();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        scrolled = false;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if(!scrolled){
+                            chatPrivateAdapter.unflip();
+                            clearEditText(editMsg, getContext(), getView());
+                            Log.d("hi","hi");
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        scrolled = true;
+                        break;
+                }
                 return false;
             }
         });
@@ -357,6 +374,11 @@ public class ChatPrivateFragment extends Fragment {
             }
         }
         MainActivity.chatsAdapter.notifyDataSetChanged();
+    }
 
+    public static void clearEditText(EditText editText, Context context, View view){
+        editText.clearFocus();
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
