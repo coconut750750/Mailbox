@@ -1,5 +1,6 @@
 package com.brandon.mailbox;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -110,21 +112,9 @@ public class ChatPrivateFragment extends Fragment {
             }
         });
 
-        boolean secretOn = false;
-
-        for(int i = 0; i < MainActivity.chatNames.size(); i++){
-            if(MainActivity.chatNames.get(i).trim().equals(uid)){
-                secretOn = MainActivity.chatNames.get(i).contains(ChatActivity.SEPARATOR);
-                break;
-            }
-        }
-
         chatMap = new ArrayList<>();
         newChatMap = new ArrayList<>();
-        chatPrivateAdapter = new ChatPrivateAdapter(chatMap, secretOn);
-        if(secretOn){
-            editMsg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }
+        chatPrivateAdapter = new ChatPrivateAdapter(chatMap);
 
         sendToRef = MainActivity.mRootRef.child(MainActivity.FirebaseUserList).child(uid).child("Chats").child(MainActivity.uid);
 
@@ -240,6 +230,11 @@ public class ChatPrivateFragment extends Fragment {
 
         t.start();
 
+        boolean secretOn = MainActivity.isSecret(uid);
+        if(secretOn){
+            toggleSecret();
+        }
+
         return view;
     }
 
@@ -334,11 +329,11 @@ public class ChatPrivateFragment extends Fragment {
     }
 
     public void toggleSecret(){
-
         chatPrivateAdapter.toggleSecret();
         String toAdd;
 
         if (editMsg.getInputType() == InputType.TYPE_CLASS_TEXT){
+            mRecyclerView.setBackgroundColor(getResources().getColor(R.color.primary_dark_material_light));
             editMsg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             for(int i = 0; i < MainActivity.chatNames.size(); i++){
                 if(MainActivity.chatNames.get(i).equals(uid)){
@@ -350,6 +345,7 @@ public class ChatPrivateFragment extends Fragment {
             }
         }
         else{
+            mRecyclerView.setBackgroundColor(getResources().getColor(R.color.primary_material_light));
             editMsg.setInputType(InputType.TYPE_CLASS_TEXT);
             for(int i = 0; i < MainActivity.chatNames.size(); i++){
                 if(MainActivity.chatNames.get(i).trim().equals(uid)){

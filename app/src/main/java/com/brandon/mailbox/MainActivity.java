@@ -491,6 +491,15 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static boolean isSecret(String uid){
+        for(int i = 0; i < MainActivity.chatNames.size(); i++){
+            if(MainActivity.chatNames.get(i).trim().equals(uid)){
+                return MainActivity.chatNames.get(i).contains(ChatActivity.SEPARATOR);
+            }
+        }
+        return false;
+    }
+
     //Logout button
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();

@@ -12,19 +12,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/message_layout"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never"
+        android:background="@color/primary_material_light"/>
 
     <LinearLayout
         android:id="@+id/message_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
-        <EditText
-            android:id="@+id/editMessage"
+        android:layout_alignParentBottom="true"
+        android:background="@color/primary_material_light">
+        <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:id="@+id/message_wrap"
+            android:padding="0dp"
             android:layout_weight="3"
-            android:layout_alignParentBottom="true"/>
+            android:theme="@style/TextInputLabel">
+            <EditText
+                android:id="@+id/editMessage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/edit_message" />
+        </android.support.design.widget.TextInputLayout>
         <Button
             android:id="@+id/toggleSecret"
             android:layout_width="0dp"

@@ -55,10 +55,10 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         }
     }
 
-    public ChatPrivateAdapter (ArrayList<String> messages, boolean secretOn){
+    public ChatPrivateAdapter (ArrayList<String> messages){
         this.messages = messages;
         this.oppositePos = -1;
-        this.secretOn = secretOn;
+        this.secretOn = false;
     }
 
     @Override

@@ -40,4 +40,7 @@
     <!-- drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- messaging -->
+    <string name="edit_message">Enter your message</string>
 </resources>
