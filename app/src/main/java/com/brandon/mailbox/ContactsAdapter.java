@@ -136,6 +136,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
                         context.startActivity(MainActivity.chatActivity(context, uid));
                         ((Activity)context).overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out);
+
+                        flippedPos = -1;
+                        flipCard();
                     }
                 }
             };
