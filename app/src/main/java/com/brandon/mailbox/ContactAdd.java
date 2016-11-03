@@ -69,7 +69,7 @@ public class ContactAdd extends AppCompatActivity {
     public void addContact(String name){
         possibles.clear();
         for(String uid : MainActivity.allUsers.keySet()){
-            if(name.equals(MainActivity.allUsers.get(uid)) && !MainActivity.contacts.contains(uid) && !uid.equals(MainActivity.uid)){
+            if(MainActivity.allUsers.get(uid).contains(name) && !MainActivity.contacts.contains(uid) && !uid.equals(MainActivity.uid)){
                 possibles.put(uid, name);
                 /*MainActivity.contacts.add(name);
                 MainActivity.contactsAdapter.notifyDataSetChanged();
