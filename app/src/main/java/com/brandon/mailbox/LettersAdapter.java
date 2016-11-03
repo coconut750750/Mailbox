@@ -29,6 +29,7 @@ public class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHold
             super(cardView);
             this.cardview = cardView;
             textView = (TextView)cardView.findViewById(R.id.letter_text);
+            cardView.setCardElevation(0);
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,7 +41,8 @@ public class ContactFragment extends Fragment {
                  @Override
                  public boolean onTouch(View v, MotionEvent event) {
                      MainActivity.contactsAdapter.unflip();
-                     return true;
+                     Log.d("touched","recycler");
+                     return false;
                  }
              });
 
