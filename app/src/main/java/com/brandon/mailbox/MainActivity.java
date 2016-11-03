@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 contactsAdapter.notifyDataSetChanged();
                 chatsAdapter.notifyDataSetChanged();
+                lettersAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -260,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 contactsAdapter.notifyDataSetChanged();
+                lettersAdapter.notifyDataSetChanged();
 
             }
 
@@ -274,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 65; i < 91; i++){
             letters.add(""+(char)i);
         }
-        lettersAdapter = new LettersAdapter(letters);
+        // is instatiated in contactFragment lettersAdapter = new LettersAdapter(letters);
 
 
 

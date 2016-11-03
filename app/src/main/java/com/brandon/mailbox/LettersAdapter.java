@@ -1,8 +1,10 @@
 package com.brandon.mailbox;
 
 import android.graphics.Color;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,27 +12,60 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
+/***
  * Created by Brandon on 11/3/16.
  */
 
-public class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHolder> {
+class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHolder> {
     private List<String> letters;
-
-    public LettersAdapter(List<String> letters){
-        this.letters = letters;
-    }
+    private int black;
+    private int previousPosition;
+    private RecyclerView contactRecyclerView;
+    private RecyclerView.LayoutManager contactLayoutManager;
+    private List<String> contactUids;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardview;
+        CardView cardView;
         TextView textView;
 
         ViewHolder(CardView cardView) {
             super(cardView);
-            this.cardview = cardView;
+            this.cardView = cardView;
             textView = (TextView)cardView.findViewById(R.id.letter_text);
             cardView.setCardElevation(0);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    previousPosition = black;
+                    black = getAdapterPosition();
+                    String letter = letters.get(black);
+
+                    notifyItemChanged(black);
+                    if (previousPosition != -1){
+                        notifyItemChanged(previousPosition);
+                    }
+
+                    int maxPos = 0;
+                    for(int u = 0; u<contactUids.size(); u++){
+                        String uid = contactUids.get(u);
+                        String name = MainActivity.allUsers.get(uid);
+                        if(name.charAt(0) <= letter.charAt(0)){
+                            maxPos = u;
+                        }
+                    }
+                    contactLayoutManager.smoothScrollToPosition(contactRecyclerView, null, maxPos);
+                }
+            });
         }
+    }
+
+    LettersAdapter(List<String> letters, RecyclerView recyclerView, RecyclerView.LayoutManager layoutManager, List<String> contacts){
+        this.letters = letters;
+        black = 0;
+        previousPosition = -1;
+        contactRecyclerView = recyclerView;
+        contactLayoutManager = layoutManager;
+        contactUids = contacts;
     }
 
     @Override
@@ -44,6 +79,13 @@ public class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         String letter = letters.get(position);
         holder.textView.setText(letter);
+        int color;
+        if(position == black){
+            color = Color.BLACK;
+        } else{
+            color = ResourcesCompat.getColor(holder.textView.getResources(), R.color.favorite2dark, null);
+        }
+        holder.textView.setTextColor(color);
 
     }
 

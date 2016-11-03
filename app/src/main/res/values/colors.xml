@@ -10,6 +10,7 @@
     <color name="favoriteLighter">#bbdefb</color>
     <color name="favorite">#64b5f6</color>
     <color name="favorite2">#bdbdbd</color>
+    <color name="favorite2dark">#9e9e9e</color>
 
 
     <!-- login button-->

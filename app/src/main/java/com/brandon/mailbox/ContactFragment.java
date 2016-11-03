@@ -15,6 +15,7 @@ public class ContactFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     RecyclerView letterRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
 
 
     public ContactFragment() {
@@ -33,7 +34,7 @@ public class ContactFragment extends Fragment {
 
         //getting recycler view and adapter
         mRecyclerView = (RecyclerView) view.findViewById(R.id.contacts_recycler);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        mLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setAdapter(MainActivity.contactsAdapter);
@@ -41,20 +42,24 @@ public class ContactFragment extends Fragment {
                  @Override
                  public boolean onTouch(View v, MotionEvent event) {
                      MainActivity.contactsAdapter.unflip();
-                     Log.d("touched","recycler");
+
                      return false;
                  }
              });
 
+
+
         MainActivity.contactsAdapter.notifyDataSetChanged();
 
+
         //getting letter recycler view and adapter
+        MainActivity.lettersAdapter = new LettersAdapter(MainActivity.letters, mRecyclerView, mLayoutManager, MainActivity.contacts);
+
         letterRecyclerView = (RecyclerView) view.findViewById(R.id.letters_recycler);
         RecyclerView.LayoutManager lLayoutManager = new GridLayoutManager(getContext(), 7);
         letterRecyclerView.setLayoutManager(lLayoutManager);
 
         letterRecyclerView.setAdapter(MainActivity.lettersAdapter);
-
 
 
         return view;

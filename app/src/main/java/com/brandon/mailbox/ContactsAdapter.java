@@ -112,7 +112,6 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
                             notifyItemChanged(previousPosition);
                         }
                     }
-                    Log.d("touched","card");
                 }
             };
 
