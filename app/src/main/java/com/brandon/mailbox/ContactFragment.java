@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 
 public class ContactFragment extends Fragment {
 
-    public static RecyclerView mRecyclerView;
+    RecyclerView mRecyclerView;
+    RecyclerView letterRecyclerView;
 
 
     public ContactFragment() {
@@ -43,8 +44,16 @@ public class ContactFragment extends Fragment {
                  }
              });
 
-
         MainActivity.contactsAdapter.notifyDataSetChanged();
+
+        //getting letter recycler view and adapter
+        letterRecyclerView = (RecyclerView) view.findViewById(R.id.letters_recycler);
+        RecyclerView.LayoutManager lLayoutManager = new GridLayoutManager(getContext(), 7);
+        letterRecyclerView.setLayoutManager(lLayoutManager);
+
+        letterRecyclerView.setAdapter(MainActivity.lettersAdapter);
+
+
 
         return view;
     }

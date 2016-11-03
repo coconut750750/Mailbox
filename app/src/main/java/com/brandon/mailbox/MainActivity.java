@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
     public static List<String> contacts; //Contacts list
     public static ContactsAdapter contactsAdapter;
     public static List<String> favs;
+    public static List<String> letters; //letter list
+    public static LettersAdapter lettersAdapter;
 
     //Chat activity
     public static List<String> chatNames;
@@ -266,6 +268,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        //Contact Fragment Letters Scroll
+        letters = new ArrayList<>();
+        for(int i = 65; i < 91; i++){
+            letters.add(""+(char)i);
+        }
+        lettersAdapter = new LettersAdapter(letters);
+
 
 
         //ChatList Reference
