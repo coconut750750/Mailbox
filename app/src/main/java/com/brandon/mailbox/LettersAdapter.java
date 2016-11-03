@@ -46,11 +46,23 @@ class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHolder> {
                     }
 
                     int maxPos = 0;
+                    char previousChar = 'a';
                     for(int u = 0; u<contactUids.size(); u++){
                         String uid = contactUids.get(u);
                         String name = MainActivity.allUsers.get(uid);
-                        if(name.charAt(0) <= letter.charAt(0)){
+                        char nameChar = name.charAt(0);
+                        char letChar = letter.charAt(0);
+                        if(nameChar == previousChar){
+                            continue;
+                        }
+
+                        previousChar = nameChar;
+
+                        if(nameChar < letChar){
                             maxPos = u;
+                        } else if(nameChar==letChar){
+                            maxPos = u;
+                            break;
                         }
                     }
                     contactLayoutManager.smoothScrollToPosition(contactRecyclerView, null, maxPos);
