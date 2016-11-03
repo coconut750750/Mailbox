@@ -50,6 +50,9 @@ public class Authentication extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     public static DatabaseReference mRootRef;
 
+    DatabaseReference mConnected;
+    ValueEventListener connectListener;
+
     public static EditText username;
     public static EditText password;
 
@@ -106,8 +109,7 @@ public class Authentication extends AppCompatActivity {
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference mConnected = mRootRef.child(".info/connected");
-        mConnected.addValueEventListener(new ValueEventListener() {
+        connectListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 final boolean connected = snapshot.getValue(Boolean.class);
@@ -133,7 +135,9 @@ public class Authentication extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        mConnected  = mRootRef.child(".info/connected");
+        mConnected.addValueEventListener(connectListener);
 
         username = (EditText) findViewById(R.id.username);
         username.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -269,6 +273,7 @@ public class Authentication extends AppCompatActivity {
     }
 
     public void register(View view){
+        mConnected.removeEventListener(connectListener);
         Intent intent = new Intent(Authentication.this, Registration.class);
         startActivity(intent);
     }
