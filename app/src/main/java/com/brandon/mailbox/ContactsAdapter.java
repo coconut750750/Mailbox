@@ -3,39 +3,35 @@ package com.brandon.mailbox;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.animation.StateListAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
-/**
+/***
  * Created by Brandon on 6/16/16.
  */
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
+class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
 
     private List<String> names;
-    int flippedPos;
-    public static long animationDuration;
-    public static Context context;
-    public static boolean hasAppeared;
+    private int flippedPos;
+    private static long animationDuration;
+    public Context context;
+    static boolean hasAppeared;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public CardView cardView;
-        public TextView textView;
-        public Button addChat;
-        public Button dismiss;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
+        TextView textView;
+        Button addChat;
+        Button dismiss;
         //contact cards
         private AnimatorSet mSetRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.card_flip_out);
         private AnimatorSet mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.card_flip_in);
@@ -46,7 +42,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         View.OnClickListener dismissListener;
         View.OnClickListener addChatListener;
 
-        public ViewHolder(CardView v) {
+        ViewHolder(CardView v) {
             super(v);
             cardView = v;
 
@@ -146,7 +142,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             toggleListeners(true);
 
             }
-        public void flipCard() {
+        void flipCard() {
 
             if (!mIsBackVisible) {
                 mIsBackVisible = true;
@@ -170,7 +166,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             }
         }
 
-        public void toggleListeners(boolean on){
+        void toggleListeners(boolean on){
             if(on){
                 textView.setOnClickListener(textViewListener);
                 dismiss.setOnClickListener(dismissListener);
@@ -183,14 +179,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             }
         }
 
-        public void setDurations(long animationDuration){
+        void setDurations(long animationDuration){
             mSetLeftIn.getChildAnimations().get(1).setDuration(animationDuration);
             mSetRightOut.getChildAnimations().get(0).setDuration(animationDuration);
         }
 
         }
 
-    public ContactsAdapter (List<String> names){
+    ContactsAdapter (List<String> names){
         this.names = names;
         this.flippedPos = -1;
         animationDuration = 500;
@@ -231,7 +227,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         return names.size();
     }
 
-    public void unflip(){
+    void unflip(){
         int previousPosition = flippedPos;
         flippedPos = -1;
         if (previousPosition != -1){
