@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -67,6 +68,7 @@ public class Authentication extends AppCompatActivity {
     public static String pass;
 
     public static boolean loggedIn;
+    public static boolean registering;
 
     public static ProgressDialog progressDialog;
 
@@ -118,7 +120,7 @@ public class Authentication extends AppCompatActivity {
                         @Override
                         public void run()
                         {
-                            while (!loggedIn){
+                            while (!loggedIn || registering){
                             }
                             progressDialog.dismiss();
                             Intent intent = new Intent(Authentication.this, MainActivity.class);
@@ -209,6 +211,8 @@ public class Authentication extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         toggleButtons(true, buttons);
+
+        registering = false;
     }
 
     @Override
@@ -273,7 +277,7 @@ public class Authentication extends AppCompatActivity {
     }
 
     public void register(View view){
-        mConnected.removeEventListener(connectListener);
+        registering = true;
         Intent intent = new Intent(Authentication.this, Registration.class);
         startActivity(intent);
     }
