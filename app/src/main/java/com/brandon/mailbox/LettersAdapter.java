@@ -63,6 +63,8 @@ class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHolder> {
                         } else if(nameChar==letChar){
                             maxPos = u;
                             break;
+                        } else {
+                            break;
                         }
                     }
                     contactLayoutManager.smoothScrollToPosition(contactRecyclerView, null, maxPos);

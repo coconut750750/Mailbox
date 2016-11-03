@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class ContactAdd extends AppCompatActivity {
 
-    public static RecyclerView mRecyclerView;
+    RecyclerView mRecyclerView;
     HashMap<String, String> possibles;
     ContactAddAdapter contactAddAdapter;
     Button add;
