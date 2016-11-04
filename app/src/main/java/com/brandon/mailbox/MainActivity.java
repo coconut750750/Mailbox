@@ -219,6 +219,16 @@ public class MainActivity extends AppCompatActivity {
                     allUsers.put(uid, name);
                     allRef.setValue(allUsers);
                 }
+
+                contacts.sort(new Comparator<String>() {
+                    @Override
+                    public int compare(String s, String t1) {
+                        char c1 = MainActivity.allUsers.get(s).charAt(0);
+                        char c2 = MainActivity.allUsers.get(t1).charAt(0);
+                        return c1-c2;
+                    }
+                });
+
                 contactsAdapter.notifyDataSetChanged();
                 chatsAdapter.notifyDataSetChanged();
                 lettersAdapter.notifyDataSetChanged();
@@ -251,14 +261,6 @@ public class MainActivity extends AppCompatActivity {
                         contacts.add(name);
                     }
                 }
-                contacts.sort(new Comparator<String>() {
-                    @Override
-                    public int compare(String s, String t1) {
-                        char c1 = MainActivity.allUsers.get(s).charAt(0);
-                        char c2 = MainActivity.allUsers.get(t1).charAt(0);
-                        return c1-c2;
-                    }
-                });
 
                 contactsAdapter.notifyDataSetChanged();
                 lettersAdapter.notifyDataSetChanged();

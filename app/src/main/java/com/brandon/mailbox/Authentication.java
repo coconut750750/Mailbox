@@ -52,7 +52,6 @@ public class Authentication extends AppCompatActivity {
     public static DatabaseReference mRootRef;
 
     DatabaseReference mConnected;
-    ValueEventListener connectListener;
 
     public static EditText username;
     public static EditText password;
@@ -84,6 +83,7 @@ public class Authentication extends AppCompatActivity {
         setTitle("Mailbox");
 
         loggedIn = false;
+        registering = false;
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -111,7 +111,8 @@ public class Authentication extends AppCompatActivity {
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
-        connectListener = new ValueEventListener() {
+        mConnected  = mRootRef.child(".info/connected");
+        mConnected.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 final boolean connected = snapshot.getValue(Boolean.class);
@@ -137,9 +138,7 @@ public class Authentication extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        };
-        mConnected  = mRootRef.child(".info/connected");
-        mConnected.addValueEventListener(connectListener);
+        });
 
         username = (EditText) findViewById(R.id.username);
         username.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
