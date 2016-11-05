@@ -86,7 +86,7 @@ public class ChatPrivateFragment extends Fragment {
         editMsg = (EditText)view.findViewById(R.id.editMessage);
         secretSend = (Button)view.findViewById(R.id.secretSendMessage);
         toggleSecret = (Button)view.findViewById(R.id.toggleSecret);
-        editMsg.setInputType(InputType.TYPE_CLASS_TEXT);
+        editMsg.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         toggleSecret.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,9 +349,9 @@ public class ChatPrivateFragment extends Fragment {
         chatPrivateAdapter.toggleSecret();
         String toAdd;
 
-        if (editMsg.getInputType() == InputType.TYPE_CLASS_TEXT){
+        if (editMsg.getInputType() == InputType.TYPE_TEXT_FLAG_CAP_SENTENCES){
             mRecyclerView.setBackgroundColor(getResources().getColor(R.color.primary_dark_material_light));
-            editMsg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            editMsg.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             for(int i = 0; i < MainActivity.chatNames.size(); i++){
                 if(MainActivity.chatNames.get(i).equals(uid)){
                     toAdd = MainActivity.chatNames.get(i)+"\t";
@@ -363,7 +363,7 @@ public class ChatPrivateFragment extends Fragment {
         }
         else{
             mRecyclerView.setBackgroundColor(getResources().getColor(R.color.primary_material_light));
-            editMsg.setInputType(InputType.TYPE_CLASS_TEXT);
+            editMsg.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
             for(int i = 0; i < MainActivity.chatNames.size(); i++){
                 if(MainActivity.chatNames.get(i).trim().equals(uid)){
                     toAdd = MainActivity.chatNames.get(i).trim();
