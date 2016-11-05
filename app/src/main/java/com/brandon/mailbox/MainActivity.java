@@ -296,11 +296,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 requests.clear();
-                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
 
-                List<String> list = dataSnapshot.getValue(t);
-                if (list != null) {
-                    for (String uid : list) {
+                GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
+                HashMap<String, String> data = dataSnapshot.getValue(t);
+
+                if (data != null) {
+                    for (String u : data.keySet()) {
+                        String uid = data.get(u);
                         requests.put(uid, MainActivity.allUsers.get(uid));
                     }
                 }
@@ -322,11 +324,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 pending.clear();
-                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
 
-                List<String> list = dataSnapshot.getValue(t);
-                if (list != null) {
-                    for (String uid : list) {
+                GenericTypeIndicator<HashMap<String, String>> t = new GenericTypeIndicator<HashMap<String, String>>() {};
+                HashMap<String, String> data = dataSnapshot.getValue(t);
+
+                if (data != null) {
+                    for (String u : data.keySet()) {
+                        String uid = data.get(u);
                         pending.put(uid, MainActivity.allUsers.get(uid));
                     }
                 }
@@ -517,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
         requestsRef.setValue(requests);
         requestsAdapter.notifyDataSetChanged();
         DatabaseReference otherRequestRef = mRootRef.child(FirebaseUserList).child(otherUid).child("Requests");
-        otherRequestRef.push().setValue(otherUid);
+        otherRequestRef.push().setValue(uid);
     }
 
     public static void refreshContact(){
