@@ -1,5 +1,6 @@
 package com.brandon.mailbox;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ public class ContactAdd extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     HashMap<String, String> possibles;
-    ContactAddAdapter contactAddAdapter;
+    ListContactAdapter contactAddAdapter;
     Button add;
 
     @Override
@@ -40,7 +41,7 @@ public class ContactAdd extends AppCompatActivity {
 
         possibles = new HashMap<>();
 
-        contactAddAdapter = new ContactAddAdapter(possibles);
+        contactAddAdapter = new ListContactAdapter(possibles, ListContactAdapter.ContactAdd);
 
         mRecyclerView.setAdapter(contactAddAdapter);
         contactAddAdapter.notifyDataSetChanged();
