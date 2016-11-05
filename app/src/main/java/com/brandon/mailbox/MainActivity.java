@@ -307,7 +307,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 requestsAdapter.notifyDataSetChanged();
-                refreshContact();
             }
 
             @Override
@@ -329,12 +328,12 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, String> data = dataSnapshot.getValue(t);
 
                 if (data != null) {
-                    for (String u : data.keySet()) {
-                        String uid = data.get(u);
+                    for (String uid : data.keySet()) {
                         pending.put(uid, MainActivity.allUsers.get(uid));
                     }
                 }
                 pendingAdapter.notifyDataSetChanged();
+                refreshContact();
             }
 
             @Override
@@ -532,11 +531,16 @@ public class MainActivity extends AppCompatActivity {
                     pending.remove(pUid);
                     contacts.add(rUid);
                 }
+                Log.d("asdf",""+pUid+","+rUid);
             }
         }
         requestsAdapter.notifyDataSetChanged();
         pendingAdapter.notifyDataSetChanged();
         contactsAdapter.notifyDataSetChanged();
+        requestsRef.setValue(requests);
+        pendingRef.setValue(pending);
+        contactRef.setValue(contacts);
+
     }
 
     public static void addChatHelper(String uid){
