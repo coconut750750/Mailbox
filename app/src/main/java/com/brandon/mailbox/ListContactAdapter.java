@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +11,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /***
  * Created by Brandon on 11/5/16.
  * Used for contactAdd, requests, and pending
  */
-
-public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.ViewHolder> {
+class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.ViewHolder> {
 
     private HashMap<String, String> list;
     private String type;
-    public static final String CONTACTADD = "CONTACTADD";
+    static final String CONTACTADD = "CONTACTADD";
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         TextView textEmail;
         CardView cardView;
 
-        public ViewHolder(CardView v) {
+        ViewHolder(CardView v) {
             super(v);
             this.cardView = v;
             textName = (TextView) v.findViewById(R.id.contact_name);
@@ -59,7 +56,7 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
         }
     }
 
-    public ListContactAdapter(HashMap<String, String> list, String type) {
+    ListContactAdapter(HashMap<String, String> list, String type) {
         this.list = list;
         this.type = type;
     }

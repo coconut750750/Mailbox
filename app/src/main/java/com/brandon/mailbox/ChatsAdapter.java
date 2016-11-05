@@ -2,11 +2,9 @@ package com.brandon.mailbox;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,24 +13,23 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
+/***
  * Created by Brandon on 6/16/16.
  */
-public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
+class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
 
-    public static List<String> chats;
+    private static List<String> chats;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
-        public ViewHolder(CardView v) {
+        ViewHolder(CardView v) {
             super(v);
             cardView = v;
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = cardView.getContext();
-                    TextView tv = (TextView) cardView.findViewById(R.id.info_text);
 
                     String uid = chats.get(getAdapterPosition()).trim();
                     context.startActivity(MainActivity.chatActivity(context, uid));
@@ -42,8 +39,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         }
     }
 
-    public ChatsAdapter (List<String> chats){
-        this.chats = chats;
+    ChatsAdapter (List<String> chats){
+        ChatsAdapter.chats = chats;
     }
 
     @Override

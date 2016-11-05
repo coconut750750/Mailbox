@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import java.io.File;
@@ -26,8 +25,8 @@ public class ChatActivity extends AppCompatActivity {
     public static String SEPARATOR = "\t";
     public static String titleSep = " - ";
 
-    private String name;
-    private String uid;
+    String name;
+    String uid;
 
     public File file;
     Thread t;
@@ -136,7 +135,7 @@ public class ChatActivity extends AppCompatActivity {
         String timeSeparator = ":";
         String result = "";
         String[] data = datetime.split(" ");
-        String current = new SimpleDateFormat(dateFormat).format(new java.util.Date());
+        String current = new SimpleDateFormat(dateFormat, Locale.US).format(new java.util.Date());
         String date = data[0];
 
         if (current.equals(date)){
@@ -168,7 +167,7 @@ public class ChatActivity extends AppCompatActivity {
             cal.setTime(sdf.parse(datetime));
             cal.add(Calendar.MILLISECOND, cal.getTimeZone().getOffset(cal.getTimeInMillis()));
             Date d = cal.getTime();
-            datetime = new SimpleDateFormat(timeFormat).format(d);
+            datetime = new SimpleDateFormat(timeFormat, Locale.US).format(d);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -187,7 +186,7 @@ public class ChatActivity extends AppCompatActivity {
         return message.substring(message.indexOf(SEPARATOR)+1,message.lastIndexOf(SEPARATOR));
     }
 
-    public static boolean isSecret(String uid){
+    /*public static boolean isSecret(String uid){
         return MainActivity.chatNames.contains(SEPARATOR);
-    }
+    }*/
 }

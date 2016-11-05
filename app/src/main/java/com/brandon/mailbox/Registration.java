@@ -28,11 +28,11 @@ public class Registration extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    public static EditText username;
-    public static EditText password1;
-    public static EditText password2;
-    public static Button button;
-    public static TextView message;
+    public EditText username;
+    public EditText password1;
+    public EditText password2;
+    public Button button;
+    public TextView message;
 
     public static String name;
     public static String pass1;
@@ -60,7 +60,6 @@ public class Registration extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out);
                     finish();
-                } else {
                 }
                 // ...
             }
@@ -147,8 +146,6 @@ public class Registration extends AppCompatActivity {
             outputStream.write(string.getBytes());
 
             outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

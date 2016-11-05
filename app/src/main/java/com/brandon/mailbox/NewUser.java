@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -37,11 +35,11 @@ public class NewUser extends AppCompatActivity {
     StorageReference imagesRef;
 
 
-    public static EditText first;
-    public static EditText last;
-    public static ImageView imageView;
-    public static Button takePic;
-    public static Button create;
+    public EditText first;
+    public EditText last;
+    public ImageView imageView;
+    public Button takePic;
+    public Button create;
 
     public static Uri photoURI;
 

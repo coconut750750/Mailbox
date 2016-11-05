@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
-/**
+/***
  * Created by Brandon on 8/20/16.
  */
-public class ChatSwipeAdapter extends FragmentStatePagerAdapter{
+class ChatSwipeAdapter extends FragmentStatePagerAdapter{
 
-    public ChatSwipeAdapter(FragmentManager fm){
+    ChatSwipeAdapter(FragmentManager fm){
         super(fm);
     }
 

@@ -1,44 +1,29 @@
 package com.brandon.mailbox;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,12 +35,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -127,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
     public static File rootFile;
 
     //Drawer
-    public static DrawerLayout drawerLayout;
-    public static TextView drawerName;
-    public static TextView drawerEmail;
+    public DrawerLayout drawerLayout;
+    public TextView drawerName;
+    public TextView drawerEmail;
     public static ActionBarDrawerToggle drawerToggle;
-    public static NavigationView navigationView;
-    public static ListView navigationFavList;
+    public NavigationView navigationView;
+    public ListView navigationFavList;
 
-    public static Toolbar toolbar;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -401,15 +383,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Creating files
         rootFile = new File(this.getFilesDir(), uid);
-        rootFile.mkdir();
 
         chatListFilename = "chatNames";
-        try {
-            chatListFile = new File(rootFile, chatListFilename);
-            chatListFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        chatListFile = new File(rootFile, chatListFilename);
         getChatNames();
 
 
@@ -427,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
 
         favs = new ArrayList<>();
         favs.add("Alex Yu");
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, favs);
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, favs);
 
         navigationFavList.setAdapter(listAdapter);
 
@@ -440,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 Log.d("string", "" + favs.get(item.getItemId()));
 
-                Context c = getApplicationContext();
+                //Context c = getApplicationContext();
                 //c.startActivity(MainActivity.chatActivity(c, uid));
 
                 return false;
@@ -590,8 +566,6 @@ public class MainActivity extends AppCompatActivity {
             bufferedReader.close();
             bufferedWriter.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -609,8 +583,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             bufferedReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -653,9 +625,9 @@ public class MainActivity extends AppCompatActivity {
     public static Button bottomMenuChats;
     public static Button bottomMenuMe;
 
-    public static Button white1;
-    public static Button black;
-    public static Button white2;
+    public Button white1;
+    public Button black;
+    public Button white2;
 
     public static void setBottomMenuItem(String activity){
         bottomMenuContacts.setTextColor(Color.GRAY);

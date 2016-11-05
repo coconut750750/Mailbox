@@ -6,15 +6,14 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
+/***
  * Created by Brandon on 7/17/16.
  */
-public class ProfilePicTask extends AsyncTask<String, Void, Bitmap> {
+class ProfilePicTask extends AsyncTask<String, Void, Bitmap> {
 
-    ImageView imageView;
+    private ImageView imageView;
 
     ProfilePicTask (ImageView imageView){
         this.imageView = imageView;
@@ -26,14 +25,11 @@ public class ProfilePicTask extends AsyncTask<String, Void, Bitmap> {
         try {
             try {
                 URL newurl = new URL(MainActivity.user.getPhotoUrl().toString());
-                Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-                return mIcon_val;
+                return BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
             } catch (NullPointerException e){
                 return null;
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

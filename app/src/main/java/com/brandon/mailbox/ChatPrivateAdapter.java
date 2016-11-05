@@ -3,7 +3,6 @@ package com.brandon.mailbox;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +15,20 @@ import java.util.ArrayList;
 /***
  * Created by Brandon on 6/24/16.
  */
-public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.ViewHolder>{
+class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.ViewHolder>{
 
     private ArrayList<String> messages;
     private int oppositePos;
     private boolean secretOn;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
         private TextView textView;
         private TextView timeTextView;
         private LinearLayout linearLayout;
-        public String original;
+        String original;
 
-        public ViewHolder(CardView v) {
+        ViewHolder(CardView v) {
             super(v);
             cardView = v;
             linearLayout = (LinearLayout)v.findViewById(R.id.chat_message_card_background);
@@ -62,7 +61,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         }
     }
 
-    public ChatPrivateAdapter (ArrayList<String> messages){
+    ChatPrivateAdapter (ArrayList<String> messages){
         this.messages = messages;
         this.oppositePos = -1;
         this.secretOn = false;
@@ -122,7 +121,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public String hidden(String msg){
+    private String hidden(String msg){
         String newMsg = "";
         String[] msgList = msg.split("");
         for(int i = 0; i<msgList.length;i++){
@@ -138,13 +137,13 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         return newMsg;
     }
 
-    public void toggleSecret(){
+    void toggleSecret(){
         secretOn = !secretOn;
         notifyDataSetChanged();
         oppositePos = -1;
     }
 
-    public void unflip(){
+    void unflip(){
         int previousPosition = oppositePos;
         oppositePos = -1;
         if (previousPosition != -1){

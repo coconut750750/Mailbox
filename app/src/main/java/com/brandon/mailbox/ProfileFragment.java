@@ -5,15 +5,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 public class ProfileFragment extends Fragment {
-    public static Button logout;
-    public static ImageView imageView;
-    public static TextView name;
+    //public Button logout;
+    public ImageView imageView;
+    public TextView name;
 
 
     public ProfileFragment() {

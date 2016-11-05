@@ -1,7 +1,6 @@
 package com.brandon.mailbox;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -60,7 +57,6 @@ public class ChatPrivateFragment extends Fragment {
     public DatabaseReference contactTimeRef;
 
     private ArrayList<String> chatMap;
-    private ArrayList<String> newChatMap;
 
     public File file;
     public Thread t;
@@ -115,7 +111,6 @@ public class ChatPrivateFragment extends Fragment {
         });
 
         chatMap = new ArrayList<>();
-        newChatMap = new ArrayList<>();
         chatPrivateAdapter = new ChatPrivateAdapter(chatMap);
 
         sendToRef = MainActivity.mRootRef.child(MainActivity.FirebaseUserList).child(uid).child("Chats").child(MainActivity.uid);
@@ -165,12 +160,7 @@ public class ChatPrivateFragment extends Fragment {
             }
         });
 
-        try {
-            file = new File(MainActivity.rootFile, uid);
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        file = new File(MainActivity.rootFile, uid);
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.chat_messages_recycler);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -265,10 +255,9 @@ public class ChatPrivateFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MILLISECOND, -cal.getTimeZone().getOffset(cal.getTimeInMillis()));
         Date date = cal.getTime();
-        String time = new SimpleDateFormat(ChatActivity.timeFormat).format(date);
+        String time = new SimpleDateFormat(ChatActivity.timeFormat, Locale.US).format(date);
 
         String toAdd = time+ChatActivity.SEPARATOR+MainActivity.uid+ChatActivity.SEPARATOR+msg;
-        newChatMap.add(toAdd);
 
         chatMap.add(toAdd); //add to chatMap after newChatMap is sorted
         updateEverything();
@@ -294,8 +283,6 @@ public class ChatPrivateFragment extends Fragment {
 
             bufferedReader.close();
             bufferedWriter.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -318,8 +305,6 @@ public class ChatPrivateFragment extends Fragment {
             }
             bufferedReader.close();
             updateEverything();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -330,7 +315,7 @@ public class ChatPrivateFragment extends Fragment {
 
         Collections.sort(messages, new Comparator<String>() {
             public int compare(String m1, String m2) {
-                SimpleDateFormat formatter = new SimpleDateFormat(ChatActivity.timeFormat);
+                SimpleDateFormat formatter = new SimpleDateFormat(ChatActivity.timeFormat, Locale.US);
                 try {
                     Date t1 = formatter.parse(ChatActivity.getTime(m1));
                     Date t2 = formatter.parse(ChatActivity.getTime(m2));

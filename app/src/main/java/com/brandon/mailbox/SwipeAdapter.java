@@ -4,12 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-/**
+/***
  * Created by Brandon on 6/20/16.
  */
 class SwipeAdapter extends FragmentStatePagerAdapter {
 
-    private static Fragment fragment;
 
     SwipeAdapter(FragmentManager fm){
         super(fm);
@@ -17,6 +16,7 @@ class SwipeAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment;
         if(position == 0){
             fragment = new ContactFragment();
         }
@@ -33,10 +33,6 @@ class SwipeAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return 3;
-    }
-
-    public static Fragment getFragment(){
-        return fragment;
     }
 
 }

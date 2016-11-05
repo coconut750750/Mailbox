@@ -5,16 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
-import android.preference.EditTextPreference;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -36,7 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,11 +49,11 @@ public class Authentication extends AppCompatActivity {
 
     DatabaseReference mConnected;
 
-    public static EditText username;
-    public static EditText password;
+    public EditText username;
+    public EditText password;
 
-    public static Button login;
-    public static Button register;
+    public Button login;
+    public Button register;
     public static ArrayList<Button> buttons;
 
     public static File file;
@@ -102,8 +98,6 @@ public class Authentication extends AppCompatActivity {
 
                     loggedIn = true;
                     progressDialog.setMessage("Signing in...");
-                } else {
-                    // User is signed out
                 }
                 // ...
             }
@@ -151,19 +145,13 @@ public class Authentication extends AppCompatActivity {
         login = (Button)findViewById(R.id.signin);
         register = (Button)findViewById(R.id.registration);
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        buttons = new ArrayList<Button>();
+        buttons = new ArrayList<>();
         buttons.add(login);
         buttons.add(register);
 
 
         filename = "data";
-
-        try {
-            file = new File(this.getFilesDir(), filename);
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        file = new File(this.getFilesDir(), filename);
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED){
@@ -194,8 +182,6 @@ public class Authentication extends AppCompatActivity {
                 }
                 index++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -244,12 +230,10 @@ public class Authentication extends AppCompatActivity {
         try {
             String string = name+"\n"+pass;
 
-            outputStream = openFileOutput(filename, this.MODE_PRIVATE);
+            outputStream = openFileOutput(filename, Authentication.MODE_PRIVATE);
             outputStream.write(string.getBytes());
 
             outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -294,8 +278,7 @@ public class Authentication extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
@@ -308,12 +291,10 @@ public class Authentication extends AppCompatActivity {
                     allowCamera = true;
                     break;
 
-                } else {
-
+                } /*else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                }
-                return;
+                }*/
             }
 
             // other 'case' lines to check for other
