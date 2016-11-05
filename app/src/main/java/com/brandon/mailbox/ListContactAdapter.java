@@ -22,7 +22,7 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
 
     private HashMap<String, String> list;
     private String type;
-    public static final String ContactAdd = "CONTACTADD";
+    public static final String CONTACTADD = "CONTACTADD";
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
@@ -34,7 +34,17 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
             this.cardView = v;
             textName = (TextView) v.findViewById(R.id.contact_name);
             textEmail = (TextView) v.findViewById(R.id.email);
-            if (type.equals(ContactAdd)) {
+            if (type.equals(CONTACTADD)) {
+                this.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.requestContact(textEmail.getText().toString());
+                        Context c = v.getContext();
+                        ((Activity) c).finish();
+                        ((Activity) c).overridePendingTransition(R.anim.left_slide_in, R.anim.right_slide_out);
+                    }
+                });
+            } else if (type.equals(ContactList.REQUESTS)){
                 this.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

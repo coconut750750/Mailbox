@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Request Reference
         requests = new HashMap<>();
-        requestsAdapter = new ListContactAdapter(requests, "");
+        requestsAdapter = new ListContactAdapter(requests, ContactList.REQUESTS);
         requestsRef = mRootRef.child(FirebaseUserList).child(uid).child("Requests");
         requestsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -305,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 requestsAdapter.notifyDataSetChanged();
+                refreshContact();
             }
 
             @Override
@@ -315,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Pending Reference
         pending = new HashMap<>();
-        pendingAdapter = new ListContactAdapter(pending, "");
+        pendingAdapter = new ListContactAdapter(pending, ContactList.PENDING);
         pendingRef = mRootRef.child(FirebaseUserList).child(uid).child("Pending");
         pendingRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -499,15 +500,39 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public static void addContact(String otherUid){
+    public static void requestContact(String otherUid){
         if(!pending.containsKey(otherUid)){
             DatabaseReference otherRequestRef = mRootRef.child(FirebaseUserList).child(otherUid).child("Requests");
             otherRequestRef.push().setValue(uid);
             pending.put(otherUid, MainActivity.allUsers.get(otherUid));
             pendingRef.setValue(pending);
         }
-        /*contacts.add(uid);
-        contactRef.setValue(contacts);*/
+    }
+
+    public static void addContact(String otherUid){
+        contacts.add(otherUid);
+        contactRef.setValue(contacts);
+        contactsAdapter.notifyDataSetChanged();
+        requests.remove(otherUid);
+        requestsRef.setValue(requests);
+        requestsAdapter.notifyDataSetChanged();
+        DatabaseReference otherRequestRef = mRootRef.child(FirebaseUserList).child(otherUid).child("Requests");
+        otherRequestRef.push().setValue(otherUid);
+    }
+
+    public static void refreshContact(){
+        for(String rUid:requests.keySet()){
+            for(String pUid:pending.keySet()){
+                if(rUid.equals(pUid)){
+                    requests.remove(rUid);
+                    pending.remove(pUid);
+                    contacts.add(rUid);
+                }
+            }
+        }
+        requestsAdapter.notifyDataSetChanged();
+        pendingAdapter.notifyDataSetChanged();
+        contactsAdapter.notifyDataSetChanged();
     }
 
     public static void addChatHelper(String uid){
