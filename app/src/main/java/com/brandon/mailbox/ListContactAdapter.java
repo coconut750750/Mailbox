@@ -18,7 +18,7 @@ import java.util.List;
  * Used for contactAdd, requests, and pending
  */
 
-public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.ViewHolder>{
+public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.ViewHolder> {
 
     private HashMap<String, String> list;
     private String type;
@@ -32,9 +32,9 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
         public ViewHolder(CardView v) {
             super(v);
             this.cardView = v;
-            textName = (TextView)v.findViewById(R.id.contact_name);
-            textEmail = (TextView)v.findViewById(R.id.email);
-            if(type.equals(ContactAdd)) {
+            textName = (TextView) v.findViewById(R.id.contact_name);
+            textEmail = (TextView) v.findViewById(R.id.email);
+            if (type.equals(ContactAdd)) {
                 this.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -48,17 +48,9 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
         }
     }
 
-    public ListContactAdapter (HashMap<String, String> list){
+    public ListContactAdapter(HashMap<String, String> list, String type) {
         this.list = list;
-        this.type = ContactAdd;
-    }
-
-    public ListContactAdapter (List<String> list){
-        this.list = new HashMap<>();
-        for(int i = 0; i < list.size(); i++){
-            this.list.put("",list.get(i));
-        }
-        this.type = "";
+        this.type = type;
     }
 
     @Override
@@ -69,24 +61,20 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
 
     @Override
     public void onBindViewHolder(ListContactAdapter.ViewHolder holder, int position) {
-        ArrayList<String> uids = new ArrayList<>();
-        for(String uid:list.keySet()){
-            uids.add(uid);
-        }
-
-        String uid = uids.get(position);
-        String name = list.get(uid);
-
         TextView textName = holder.textName;
         TextView textEmail = holder.textEmail;
+        ArrayList<String> uids = new ArrayList<>();
+        for (String uid : list.keySet()) {
+            uids.add(uid);
+        }
+        String uid = uids.get(position);
+        String name = list.get(uid);
         textName.setText(name);
         textEmail.setText(uid);
-
     }
 
     @Override
     public int getItemCount() {
         return list.size();
     }
-
 }

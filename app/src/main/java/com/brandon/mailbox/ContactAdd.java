@@ -41,7 +41,7 @@ public class ContactAdd extends AppCompatActivity {
 
         possibles = new HashMap<>();
 
-        contactAddAdapter = new ListContactAdapter(possibles);
+        contactAddAdapter = new ListContactAdapter(possibles, ListContactAdapter.ContactAdd);
 
         mRecyclerView.setAdapter(contactAddAdapter);
         contactAddAdapter.notifyDataSetChanged();

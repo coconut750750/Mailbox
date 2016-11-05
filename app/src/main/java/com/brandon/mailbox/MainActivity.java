@@ -101,10 +101,10 @@ public class MainActivity extends AppCompatActivity {
     public static List<String> letters; //letter list
     public static LettersAdapter lettersAdapter;
     //Request
-    public static List<String> requests;
+    public static HashMap<String, String> requests;
     public static ListContactAdapter requestsAdapter;
     //Pending
-    public static List<String> pending;
+    public static HashMap<String, String> pending;
     public static ListContactAdapter pendingAdapter;
 
     //Chat activity
@@ -289,8 +289,8 @@ public class MainActivity extends AppCompatActivity {
         // is instatiated in contactFragment lettersAdapter = new LettersAdapter(letters);
 
         //Request Reference
-        requests = new ArrayList<>();
-        requestsAdapter = new ListContactAdapter(requests);
+        requests = new HashMap<>();
+        requestsAdapter = new ListContactAdapter(requests, "");
         requestsRef = mRootRef.child(FirebaseUserList).child(uid).child("Requests");
         requestsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                 List<String> list = dataSnapshot.getValue(t);
                 if (list != null) {
                     for (String uid : list) {
-                        requests.add(uid);
+                        requests.put(uid, MainActivity.allUsers.get(uid));
                     }
                 }
                 requestsAdapter.notifyDataSetChanged();
@@ -314,8 +314,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Pending Reference
-        pending = new ArrayList<>();
-        pendingAdapter = new ListContactAdapter(pending);
+        pending = new HashMap<>();
+        pendingAdapter = new ListContactAdapter(pending, "");
         pendingRef = mRootRef.child(FirebaseUserList).child(uid).child("Pending");
         pendingRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                 List<String> list = dataSnapshot.getValue(t);
                 if (list != null) {
                     for (String uid : list) {
-                        pending.add(uid);
+                        pending.put(uid, MainActivity.allUsers.get(uid));
                     }
                 }
                 pendingAdapter.notifyDataSetChanged();
@@ -500,10 +500,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void addContact(String otherUid){
-        if(!pending.contains(otherUid)){
+        if(!pending.containsKey(otherUid)){
             DatabaseReference otherRequestRef = mRootRef.child(FirebaseUserList).child(otherUid).child("Requests");
             otherRequestRef.push().setValue(uid);
-            pending.add(otherUid);
+            pending.put(otherUid, MainActivity.allUsers.get(otherUid));
             pendingRef.setValue(pending);
         }
         /*contacts.add(uid);

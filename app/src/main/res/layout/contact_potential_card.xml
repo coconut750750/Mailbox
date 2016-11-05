@@ -17,7 +17,6 @@
         android:background="@drawable/contact_item_border">
         <TextView
             android:id="@+id/contact_name"
-            android:text="name"
             android:layout_marginLeft="20dp"
             android:layout_height="50dp"
             android:layout_width="match_parent"
@@ -26,7 +25,6 @@
             android:textSize="48px"/>
         <TextView
             android:id="@+id/email"
-            android:text="email"
             android:layout_marginLeft="20dp"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
