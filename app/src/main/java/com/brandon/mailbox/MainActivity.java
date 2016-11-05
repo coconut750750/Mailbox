@@ -102,9 +102,10 @@ public class MainActivity extends AppCompatActivity {
     public static LettersAdapter lettersAdapter;
     //Request
     public static List<String> requests;
-    //adapter here
+    public static ListContactAdapter requestsAdapter;
     //Pending
     public static List<String> pending;
+    public static ListContactAdapter pendingAdapter;
 
     //Chat activity
     public static List<String> chatNames;
@@ -289,10 +290,32 @@ public class MainActivity extends AppCompatActivity {
 
         //Request Reference
         requests = new ArrayList<>();
+        requestsAdapter = new ListContactAdapter(requests);
         requestsRef = mRootRef.child(FirebaseUserList).child(uid).child("Requests");
+        requestsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                requests.clear();
+                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+
+                List<String> list = dataSnapshot.getValue(t);
+                if (list != null) {
+                    for (String uid : list) {
+                        requests.add(uid);
+                    }
+                }
+                requestsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //Pending Reference
         pending = new ArrayList<>();
+        pendingAdapter = new ListContactAdapter(pending);
         pendingRef = mRootRef.child(FirebaseUserList).child(uid).child("Pending");
         pendingRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -306,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                         pending.add(uid);
                     }
                 }
-                //notify adapter
+                pendingAdapter.notifyDataSetChanged();
             }
 
             @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /***
  * Created by Brandon on 11/5/16.
@@ -47,9 +48,16 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
         }
     }
 
-    public ListContactAdapter (HashMap<String, String> list, String type){
+    public ListContactAdapter (HashMap<String, String> list){
         this.list = list;
-        this.type = type;
+        this.type = ContactAdd;
+    }
+
+    public ListContactAdapter (List<String> list){
+        for(int i = 0; i < list.size(); i++){
+            this.list.put("",list.get(i));
+        }
+        this.type = "";
     }
 
     @Override
