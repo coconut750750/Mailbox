@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
     //Database References
     public static DatabaseReference mRootRef;
     public static DatabaseReference contactRef;
+    public static DatabaseReference requestsRef;
+    public static DatabaseReference pendingRef;
     public static DatabaseReference chatRef;
     public static DatabaseReference timeRef;
 
@@ -98,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
     public static List<String> favs;
     public static List<String> letters; //letter list
     public static LettersAdapter lettersAdapter;
+    //Request
+    public static List<String> requests;
+    //adapter here
+    //Pending
+    public static List<String> pending;
 
     //Chat activity
     public static List<String> chatNames;
@@ -280,6 +287,34 @@ public class MainActivity extends AppCompatActivity {
         }
         // is instatiated in contactFragment lettersAdapter = new LettersAdapter(letters);
 
+        //Request Reference
+        requests = new ArrayList<>();
+        requestsRef = mRootRef.child(FirebaseUserList).child(uid).child("Requests");
+
+        //Pending Reference
+        pending = new ArrayList<>();
+        pendingRef = mRootRef.child(FirebaseUserList).child(uid).child("Pending");
+        pendingRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                pending.clear();
+                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+
+                List<String> list = dataSnapshot.getValue(t);
+                if (list != null) {
+                    for (String uid : list) {
+                        pending.add(uid);
+                    }
+                }
+                //notify adapter
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
         //ChatList Reference
@@ -441,9 +476,15 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public static void addContact(String uid){
-        contacts.add(uid);
-        contactRef.setValue(contacts);
+    public static void addContact(String otherUid){
+        if(!pending.contains(otherUid)){
+            DatabaseReference otherRequestRef = mRootRef.child(FirebaseUserList).child(otherUid).child("Requests");
+            otherRequestRef.push().setValue(uid);
+            pending.add(otherUid);
+            pendingRef.setValue(pending);
+        }
+        /*contacts.add(uid);
+        contactRef.setValue(contacts);*/
     }
 
     public static void addChatHelper(String uid){

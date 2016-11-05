@@ -5,20 +5,36 @@
     tools:context="com.brandon.mailbox.FragmentAdd">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_width="175dp"
+        android:layout_height="150dp"
         android:background="@color/primary_dark_material_light"
         android:padding="2dp"
         android:layout_alignParentRight="true"
         android:elevation="2dp">
         <Button
             android:id="@+id/addContactFrag"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Add Contact"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/contact_requests"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Contact Requests"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/addContactFrag"/>
+        <Button
+            android:id="@+id/contact_pending"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Pending Requests"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/contact_requests"/>
     </RelativeLayout>
 
 
