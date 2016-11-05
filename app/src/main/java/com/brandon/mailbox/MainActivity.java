@@ -103,9 +103,11 @@ public class MainActivity extends AppCompatActivity {
     //Request
     public static HashMap<String, String> requests;
     public static ListContactAdapter requestsAdapter;
+    boolean requestReady;
     //Pending
     public static HashMap<String, String> pending;
     public static ListContactAdapter pendingAdapter;
+    boolean pendingReady;
 
     //Chat activity
     public static List<String> chatNames;
@@ -289,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
         // is instatiated in contactFragment lettersAdapter = new LettersAdapter(letters);
 
         //Request Reference
+        requestReady = false;
         requests = new HashMap<>();
         requestsAdapter = new ListContactAdapter(requests, ContactList.REQUESTS);
         requestsRef = mRootRef.child(FirebaseUserList).child(uid).child("Requests");
@@ -301,11 +304,16 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, String> data = dataSnapshot.getValue(t);
 
                 if (data != null) {
-                    for (String uid : data.keySet()) {
+                    for (String u : data.keySet()) {
+                        String uid = data.get(u);
                         requests.put(uid, MainActivity.allUsers.get(uid));
                     }
                 }
                 requestsAdapter.notifyDataSetChanged();
+                requestReady = true;
+                if(pendingReady){
+                    refreshContact();
+                }
             }
 
             @Override
@@ -315,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Pending Reference
+        pendingReady = false;
         pending = new HashMap<>();
         pendingAdapter = new ListContactAdapter(pending, ContactList.PENDING);
         pendingRef = mRootRef.child(FirebaseUserList).child(uid).child("Pending");
@@ -332,7 +341,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 pendingAdapter.notifyDataSetChanged();
-                refreshContact();
+                pendingReady = true;
+                if(requestReady){
+                    refreshContact();
+                }
             }
 
             @Override
@@ -523,10 +535,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void refreshContact(){
+        HashMap<String, String> tempRequests = new HashMap<>();
         for(String rUid:requests.keySet()){
+            tempRequests.put(rUid, rUid);
             for(String pUid:pending.keySet()){
                 if(rUid.equals(pUid)){
                     requests.remove(rUid);
+                    tempRequests.remove(rUid);
                     pending.remove(pUid);
                     contacts.add(rUid);
                 }
@@ -535,7 +550,8 @@ public class MainActivity extends AppCompatActivity {
         requestsAdapter.notifyDataSetChanged();
         pendingAdapter.notifyDataSetChanged();
         contactsAdapter.notifyDataSetChanged();
-        requestsRef.setValue(requests);
+
+        requestsRef.setValue(tempRequests);
         pendingRef.setValue(pending);
         contactRef.setValue(contacts);
 
