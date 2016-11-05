@@ -25,29 +25,44 @@ public class FragmentAdd extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_add, container, false);
 
         Button addContact = (Button)view.findViewById(R.id.addContactFrag);
-
-        /*addContact.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                MainActivity.fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
-                MainActivity.frag = new addContact();
-                MainActivity.fragmentTransaction.replace(R.id.fragment_container, MainActivity.frag);
-                MainActivity.fragmentTransaction.commit();
-                return true;
-            }
-        });*/
+        Button requests = (Button)view.findViewById(R.id.contact_requests);
+        Button pending = (Button)view.findViewById(R.id.contact_pending);
+        final Context c = getContext();
 
         addContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context c = getContext();
                 Intent intent = new Intent(c, ContactAdd.class);
+                getActivity().startActivity(intent);
+                ((Activity)c).overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out);
+
+                MainActivity.hideFragmentAdd();
+            }
+        });
+
+        requests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(c, ContactList.class);
+                intent.putExtra(ContactList.TYPE,ContactList.REQUESTS);
+                getActivity().startActivity(intent);
+                ((Activity)c).overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out);
+
+                MainActivity.hideFragmentAdd();
+            }
+        });
+
+        pending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(c, ContactList.class);
+                intent.putExtra(ContactList.TYPE,ContactList.PENDING);
                 getActivity().startActivity(intent);
                 ((Activity)c).overridePendingTransition(R.anim.right_slide_in, R.anim.left_slide_out);
 

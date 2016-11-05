@@ -54,6 +54,7 @@ public class ListContactAdapter extends RecyclerView.Adapter<ListContactAdapter.
     }
 
     public ListContactAdapter (List<String> list){
+        this.list = new HashMap<>();
         for(int i = 0; i < list.size(); i++){
             this.list.put("",list.get(i));
         }
