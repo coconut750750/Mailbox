@@ -212,18 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     allRef.setValue(allUsers);
                 }
 
-                contacts.sort(new Comparator<String>() {
-                    @Override
-                    public int compare(String s, String t1) {
-                        char c1 = MainActivity.allUsers.get(s).charAt(0);
-                        char c2 = MainActivity.allUsers.get(t1).charAt(0);
-                        return c1-c2;
-                    }
-                });
-
-                contactsAdapter.notifyDataSetChanged();
-                chatsAdapter.notifyDataSetChanged();
-                lettersAdapter.notifyDataSetChanged();
+                sortContacts();
             }
 
             @Override
@@ -525,12 +514,26 @@ public class MainActivity extends AppCompatActivity {
         }
         requestsAdapter.notifyDataSetChanged();
         pendingAdapter.notifyDataSetChanged();
-        contactsAdapter.notifyDataSetChanged();
+        sortContacts();
 
         requestsRef.setValue(tempRequests);
         pendingRef.setValue(pending);
         contactRef.setValue(contacts);
+    }
 
+    public static void sortContacts(){
+        contacts.sort(new Comparator<String>() {
+            @Override
+            public int compare(String s, String t1) {
+                char c1 = MainActivity.allUsers.get(s).charAt(0);
+                char c2 = MainActivity.allUsers.get(t1).charAt(0);
+                return c1-c2;
+            }
+        });
+
+        contactsAdapter.notifyDataSetChanged();
+        chatsAdapter.notifyDataSetChanged();
+        lettersAdapter.notifyDataSetChanged();
     }
 
     public static void addChatHelper(String uid){
