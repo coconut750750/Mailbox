@@ -59,6 +59,9 @@ public class ContactAdd extends AppCompatActivity {
     public void addContact(View view){
         EditText fragText = (EditText) findViewById(R.id.edit);
         String name = fragText.getText().toString();
+        if(name.equals("")){
+            return;
+        }
         //hide keyboard
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(fragText.getWindowToken(), 0);
