@@ -501,9 +501,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static void refreshContact(){
         HashMap<String, String> tempRequests = new HashMap<>();
-        for(String rUid:requests.keySet()){
+        for(int r = 0; r<requests.size(); r++){
+            String rUid = new ArrayList<>(requests.keySet()).get(r);
             tempRequests.put(rUid, rUid);
-            for(String pUid:pending.keySet()){
+            for(int p = 0; p <pending.size(); p++){
+                String pUid = new ArrayList<>(pending.keySet()).get(p);
                 if(rUid.equals(pUid)){
                     requests.remove(rUid);
                     tempRequests.remove(rUid);
@@ -512,6 +514,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
         requestsAdapter.notifyDataSetChanged();
         pendingAdapter.notifyDataSetChanged();
         sortContacts();
