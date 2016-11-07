@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ class LettersAdapter extends RecyclerView.Adapter<LettersAdapter.ViewHolder> {
                             break;
                         }
                     }
+
                     contactLayoutManager.smoothScrollToPosition(contactRecyclerView, null, maxPos);
                 }
             });
