@@ -489,9 +489,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void addContact(String otherUid){
-        contacts.add(otherUid);
-        contactRef.setValue(contacts);
-        contactsAdapter.notifyDataSetChanged();
+        if(!contacts.contains(otherUid)){
+            contacts.add(otherUid);
+            contactRef.setValue(contacts);
+            contactsAdapter.notifyDataSetChanged();
+        }
+
         requests.remove(otherUid);
         requestsRef.setValue(requests);
         requestsAdapter.notifyDataSetChanged();
