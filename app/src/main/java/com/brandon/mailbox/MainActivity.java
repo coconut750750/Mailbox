@@ -503,18 +503,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void refreshContact(){
+        List<String> dups = new ArrayList<>();
         HashMap<String, String> tempRequests = new HashMap<>();
         for(int r = 0; r<requests.size(); r++){
             String rUid = new ArrayList<>(requests.keySet()).get(r);
-            tempRequests.put(rUid, rUid);
+            tempRequests.put(rUid,rUid);
             for(int p = 0; p <pending.size(); p++){
                 String pUid = new ArrayList<>(pending.keySet()).get(p);
                 if(rUid.equals(pUid)){
-                    requests.remove(rUid);
-                    tempRequests.remove(rUid);
-                    pending.remove(pUid);
-                    contacts.add(rUid);
+                    dups.add(rUid);
                 }
+            }
+        }
+
+        for(String uid:dups){
+            if(requests.containsKey(uid) && pending.containsKey(uid)){
+                requests.remove(uid);
+                tempRequests.remove(uid);
+                pending.remove(uid);
+                contacts.add(uid);
             }
         }
 
@@ -522,6 +529,7 @@ public class MainActivity extends AppCompatActivity {
         pendingAdapter.notifyDataSetChanged();
         sortContacts();
 
+        Log.d("asdf",""+requests.size()+" "+pending.size()+" "+contacts.size());
         requestsRef.setValue(tempRequests);
         pendingRef.setValue(pending);
         contactRef.setValue(contacts);

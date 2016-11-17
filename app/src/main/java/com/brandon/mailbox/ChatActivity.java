@@ -29,7 +29,7 @@ public class ChatActivity extends AppCompatActivity {
     String uid;
 
     public File file;
-    Thread t;
+    //Thread t;
 
     public ViewPager viewPager;
 
