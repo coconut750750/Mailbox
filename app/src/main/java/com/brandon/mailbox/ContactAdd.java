@@ -72,12 +72,12 @@ public class ContactAdd extends AppCompatActivity {
     public void addContact(String name){
         possibles.clear();
         for(String uid : MainActivity.allUsers.keySet()){
-            if(MainActivity.allUsers.get(uid).contains(name) && !MainActivity.contacts.contains(uid) && !uid.equals(MainActivity.uid)){
+            if(MainActivity.allUsers.get(uid).contains(name)
+                    && !MainActivity.contacts.contains(uid)
+                    && !uid.equals(MainActivity.uid)
+                    && !MainActivity.pending.containsKey(uid)){
                 possibles.put(uid, MainActivity.allUsers.get(uid));
-                /*MainActivity.contacts.add(name);
-                MainActivity.contactsAdapter.notifyDataSetChanged();
-                MainActivity.contactRef.setValue(MainActivity.contacts);
-                return;*/
+
             }
         }
         contactAddAdapter.notifyDataSetChanged();
