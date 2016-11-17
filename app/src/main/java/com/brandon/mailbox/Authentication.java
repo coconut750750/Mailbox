@@ -152,6 +152,11 @@ public class Authentication extends AppCompatActivity {
 
         filename = "data";
         file = new File(this.getFilesDir(), filename);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED){

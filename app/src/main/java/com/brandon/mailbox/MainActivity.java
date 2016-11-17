@@ -375,6 +375,11 @@ public class MainActivity extends AppCompatActivity {
 
         chatListFilename = "chatNames";
         chatListFile = new File(rootFile, chatListFilename);
+        try {
+            chatListFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         getChatNames();
 
 
@@ -529,7 +534,6 @@ public class MainActivity extends AppCompatActivity {
         pendingAdapter.notifyDataSetChanged();
         sortContacts();
 
-        Log.d("asdf",""+requests.size()+" "+pending.size()+" "+contacts.size());
         requestsRef.setValue(tempRequests);
         pendingRef.setValue(pending);
         contactRef.setValue(contacts);

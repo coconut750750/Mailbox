@@ -161,6 +161,11 @@ public class ChatPrivateFragment extends Fragment {
         });
 
         file = new File(MainActivity.rootFile, uid);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.chat_messages_recycler);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -180,7 +185,6 @@ public class ChatPrivateFragment extends Fragment {
                         if(!scrolled){
                             chatPrivateAdapter.unflip();
                             clearEditText(editMsg, getContext(), getView());
-                            Log.d("hi","hi");
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
