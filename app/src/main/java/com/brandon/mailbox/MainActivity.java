@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, Object> data = dataSnapshot.getValue(t);
                 if (data != null) {
                     for (String name : data.keySet()) {
-                        if (!chatNames.contains(name) || !chatNames.contains(name+ChatActivity.SEPARATOR)) {
+                        if (!chatNames.contains(name) && !chatNames.contains(name+ChatActivity.SEPARATOR)) {
                             chatNames.add(name);
                             addChatToFile(name);
                         }
