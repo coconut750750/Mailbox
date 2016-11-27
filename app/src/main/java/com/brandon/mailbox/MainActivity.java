@@ -372,9 +372,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Creating files
         rootFile = new File(this.getFilesDir(), uid);
+        rootFile.mkdirs();
 
         chatListFilename = "chatNames";
         chatListFile = new File(rootFile, chatListFilename);
+        Log.d("file",""+rootFile.isDirectory());
+        Log.d("file",""+chatListFile);
         try {
             chatListFile.createNewFile();
         } catch (IOException e) {

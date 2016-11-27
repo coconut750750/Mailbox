@@ -269,6 +269,7 @@ public class ChatPrivateFragment extends Fragment {
         sendToRef.push().setValue(toAdd);
 
         addMessageToFile(msg,time, MainActivity.uid);
+        Log.d("asdf",""+file);
     }
 
     public void addMessageToFile(String msg, String time, String uid){
