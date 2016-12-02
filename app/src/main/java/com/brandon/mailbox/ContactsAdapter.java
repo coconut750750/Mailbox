@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
         TextView textView;
         Button addChat;
         Button dismiss;
+        Button profile;
         //contact cards
         private AnimatorSet mSetRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.card_flip_out);
         private AnimatorSet mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.card_flip_in);
@@ -41,6 +43,7 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
         View.OnClickListener textViewListener;
         View.OnClickListener dismissListener;
         View.OnClickListener addChatListener;
+        View.OnClickListener profileListener;
 
         ViewHolder(CardView v) {
             super(v);
@@ -51,12 +54,14 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
 
             addChat = (Button)cardView.findViewById(R.id.add_chat_prompt);
             dismiss = (Button)cardView.findViewById(R.id.dismiss_prompt);
+            profile = (Button)cardView.findViewById(R.id.profile_prompt);
             textView = (TextView)cardView.findViewById(R.id.contact_name);
 
             mCardBackLayout.setVisibility(View.VISIBLE);
             mCardFrontLayout.setVisibility(View.VISIBLE);
             addChat.setVisibility(View.VISIBLE);
             dismiss.setVisibility(View.VISIBLE);
+            profile.setVisibility(View.VISIBLE);
             textView.setVisibility(View.VISIBLE);
 
             Context context = v.getContext();
@@ -81,6 +86,7 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
                     toggleListeners(true);
                     addChat.setText("Chat");
                     dismiss.setText("Dismiss");
+                    profile.setText("Profile");
                 }
 
                 @Override
@@ -139,6 +145,16 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
                 }
             };
 
+            profileListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    flippedPos = -1;
+                    flipCard();
+                    Log.d("asdf",names.get(getAdapterPosition()));
+                }
+            };
+
+
             toggleListeners(true);
 
             }
@@ -171,11 +187,13 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
                 textView.setOnClickListener(textViewListener);
                 dismiss.setOnClickListener(dismissListener);
                 addChat.setOnClickListener(addChatListener);
+                profile.setOnClickListener(profileListener);
             }
             else{
                 textView.setOnClickListener(null);
                 dismiss.setOnClickListener(null);
                 addChat.setOnClickListener(null);
+                profile.setOnClickListener(null);
             }
         }
 
