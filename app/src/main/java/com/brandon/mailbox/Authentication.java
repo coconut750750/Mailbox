@@ -95,6 +95,8 @@ public class Authentication extends AppCompatActivity {
                     progressDialog.show();
                     DatabaseReference nameRef = mRootRef.child(MainActivity.FirebaseUserList).child(user.getUid()).child("Name");
                     nameRef.setValue(user.getDisplayName());
+                    DatabaseReference emailRef = mRootRef.child(MainActivity.FirebaseUserList).child(user.getUid()).child("Email");
+                    emailRef.setValue(user.getEmail());
 
                     loggedIn = true;
                     progressDialog.setMessage("Signing in...");

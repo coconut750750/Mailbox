@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.brandon.mailbox.ContactProfileFragment"
+    android:background="@drawable/contact_item_border">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_name"
+        android:textAppearance="@style/ralewayReg"
+        android:textSize="30dp"
+        android:text="Brandon"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contact_email"
+        android:textAppearance="@style/ralewayReg"
+        android:layout_below="@+id/contact_name"
+        android:textSize="20dp"
+        android:text="Wang"/>
+
+</RelativeLayout>

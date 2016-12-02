@@ -6,6 +6,11 @@ import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +32,10 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
     private static long animationDuration;
     public Context context;
     static boolean hasAppeared;
+
+    //Fragments
+    private FragmentManager fragmentManager;
+    private Fragment frag;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
@@ -64,7 +73,6 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
             profile.setVisibility(View.VISIBLE);
             textView.setVisibility(View.VISIBLE);
 
-            Context context = v.getContext();
 
             mSetRightOut.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -148,9 +156,17 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
             profileListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    flippedPos = -1;
-                    flipCard();
-                    Log.d("asdf",names.get(getAdapterPosition()));
+                    Fragment f = fragmentManager.findFragmentById(R.id.profile_fragment);
+                    if(f == null){
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        frag = new ContactProfileFragment();
+                        Bundle b = new Bundle();
+                        b.putString(ContactProfileFragment.NAME, MainActivity.allUsers.get(names.get(getAdapterPosition())));
+                        b.putString(ContactProfileFragment.EMAIL, names.get(getAdapterPosition()));
+                        frag.setArguments(b);
+                        fragmentTransaction.add(R.id.profile_fragment, frag);
+                        fragmentTransaction.commit();
+                    }
                 }
             };
 
@@ -179,6 +195,14 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
                 }
                 mSetRightOut.start();
                 mSetLeftIn.start();
+
+                Fragment f = fragmentManager.findFragmentById(R.id.profile_fragment);
+                if(f != null){
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.remove(f);
+                    fragmentTransaction.commit();
+                    Log.d("asdf", "there is frag");
+                }
             }
         }
 
@@ -217,6 +241,7 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_card, parent, false);
         cv.setCardBackgroundColor(Color.TRANSPARENT);
         context = cv.getContext();
+        fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
         return new ContactsAdapter.ViewHolder(cv);
     }
 

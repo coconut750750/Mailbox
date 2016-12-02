@@ -376,8 +376,6 @@ public class MainActivity extends AppCompatActivity {
 
         chatListFilename = "chatNames";
         chatListFile = new File(rootFile, chatListFilename);
-        Log.d("file",""+rootFile.isDirectory());
-        Log.d("file",""+chatListFile);
         try {
             chatListFile.createNewFile();
         } catch (IOException e) {
@@ -450,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.add(R.id.fragment_container, frag);
                 }
                 else{
-                    fragmentTransaction.remove(frag);
+                    fragmentTransaction.remove(f);
                 }
                 fragmentTransaction.commit();
                 return true;
@@ -460,6 +458,7 @@ public class MainActivity extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     public static void hideFragmentAdd(){
