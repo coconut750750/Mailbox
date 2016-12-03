@@ -124,31 +124,37 @@ public class NewUser extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0 && resultCode == RESULT_OK) {
             try {
-                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+                final Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
                 imageView.setImageBitmap(imageBitmap);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] d = baos.toByteArray();
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+                        byte[] d = baos.toByteArray();
 
-                UploadTask uploadTask = imagesRef.putBytes(d);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                        photoURI = taskSnapshot.getDownloadUrl();
-                        create.setEnabled(true);
+                        UploadTask uploadTask = imagesRef.putBytes(d);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(Exception exception) {
+                                // Handle unsuccessful uploads
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                                photoURI = taskSnapshot.getDownloadUrl();
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(photoURI).build();
+                                MainActivity.user.updateProfile(profileUpdates);
+                            }
+                        });
+
                     }
                 });
+                t.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 }
