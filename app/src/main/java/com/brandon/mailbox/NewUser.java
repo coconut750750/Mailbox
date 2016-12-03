@@ -1,9 +1,12 @@
 package com.brandon.mailbox;
 
+import android.*;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class NewUser extends AppCompatActivity {
 
@@ -106,34 +110,45 @@ public class NewUser extends AppCompatActivity {
     }
 
     public void takePic(View view){
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, Authentication.MY_PERMISSIONS_REQUEST_CAMERA);
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
         create.setEnabled(false);
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        photoURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
         startActivityForResult(intent, 0);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] d = baos.toByteArray();
+            try {
+                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+                imageView.setImageBitmap(imageBitmap);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] d = baos.toByteArray();
 
-            UploadTask uploadTask = imagesRef.putBytes(d);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    photoURI = taskSnapshot.getDownloadUrl();
-                    create.setEnabled(true);
-                }
-            });
+                UploadTask uploadTask = imagesRef.putBytes(d);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        photoURI = taskSnapshot.getDownloadUrl();
+                        create.setEnabled(true);
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 }

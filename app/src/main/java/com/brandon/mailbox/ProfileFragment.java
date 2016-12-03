@@ -1,11 +1,13 @@
 package com.brandon.mailbox;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,16 +17,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 public class ProfileFragment extends Fragment {
@@ -74,41 +75,46 @@ public class ProfileFragment extends Fragment {
     }
 
     public void takePicture(){
-        if (!Authentication.allowCamera){
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.CAMERA}, Authentication.MY_PERMISSIONS_REQUEST_CAMERA);
-        }
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.CAMERA}, Authentication.MY_PERMISSIONS_REQUEST_CAMERA);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+        photoURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
         startActivityForResult(intent, 0);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-            Bundle extras = data.getExtras();
+            try {
+                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoURI);
+                imageView.setImageBitmap(imageBitmap);
 
-            Bitmap imageBitmap = ((Bitmap)extras.get("data"));
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] d = baos.toByteArray();
 
-            ProfilePicTask profilePicTask = new ProfilePicTask(imageView);
-            profilePicTask.execute();
+                UploadTask uploadTask = imagesRef.putBytes(d);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        photoURI = taskSnapshot.getDownloadUrl();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(photoURI).build();
+                        MainActivity.user.updateProfile(profileUpdates);
+                    }
+                });
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] d = baos.toByteArray();
-
-            UploadTask uploadTask = imagesRef.putBytes(d);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    photoURI = taskSnapshot.getDownloadUrl();
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(photoURI).build();
-                    MainActivity.user.updateProfile(profileUpdates);
-                }
-            });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
