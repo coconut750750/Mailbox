@@ -40,7 +40,7 @@ import java.util.ArrayList;
 
 public class Authentication extends AppCompatActivity {
 
-    public final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+    public final static int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     public static boolean allowCamera = false;
 
     public static FirebaseAuth mAuth;
@@ -104,6 +104,8 @@ public class Authentication extends AppCompatActivity {
                 // ...
             }
         };
+
+
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
 

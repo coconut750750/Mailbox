@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -66,9 +67,12 @@ public class NewUser extends AppCompatActivity {
         imagesRef = storageRef.child("profilepic/"+user.getUid());
 
         if (!Authentication.allowCamera){
-            imageView.setVisibility(View.INVISIBLE);
-            takePic.setVisibility(View.INVISIBLE);
-            takePic.setEnabled(false);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.CAMERA}, Authentication.MY_PERMISSIONS_REQUEST_CAMERA);
+
+            //imageView.setVisibility(View.INVISIBLE);
+            //takePic.setVisibility(View.INVISIBLE);
+            //takePic.setEnabled(false);
         }
         create.setOnClickListener(new View.OnClickListener() {
             @Override
