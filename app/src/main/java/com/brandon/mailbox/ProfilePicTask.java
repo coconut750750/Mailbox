@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -44,7 +45,16 @@ class ProfilePicTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap mIcon_val) {
-        imageView.setImageBitmap(mIcon_val);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        mIcon_val.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        Bitmap source = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, options);
+        imageView.setImageBitmap(source);
     }
 
     @Override

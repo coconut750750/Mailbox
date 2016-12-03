@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,12 +66,7 @@ public class NewUser extends AppCompatActivity {
         imagesRef = storageRef.child("profilepic/"+user.getUid());
 
         if (!Authentication.allowCamera){
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.CAMERA}, Authentication.MY_PERMISSIONS_REQUEST_CAMERA);
-
-            //imageView.setVisibility(View.INVISIBLE);
-            //takePic.setVisibility(View.INVISIBLE);
-            //takePic.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, Authentication.MY_PERMISSIONS_REQUEST_CAMERA);
         }
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +92,7 @@ public class NewUser extends AppCompatActivity {
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(Task<Void> task) {
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(NewUser.this, Authentication.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -129,7 +123,7 @@ public class NewUser extends AppCompatActivity {
             UploadTask uploadTask = imagesRef.putBytes(d);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
+                public void onFailure(Exception exception) {
                     // Handle unsuccessful uploads
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

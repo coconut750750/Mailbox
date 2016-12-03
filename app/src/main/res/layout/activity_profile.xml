@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,12 +25,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Name"
-        android:id="@+id/profileName"/>
+        android:id="@+id/profileName"
+        android:layout_below="@+id/logout"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:padding="5dp"
-        android:id="@+id/image"/>
+        android:id="@+id/image"
+        android:layout_below="@+id/profileName"/>
 
-</LinearLayout>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Picture"
+        android:id="@+id/takePic"
+        android:textColor="#fff"
+        android:padding="16dp"
+        android:background="@drawable/button_login"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignBaseline="@+id/logout"
+        android:layout_alignBottom="@+id/logout"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
