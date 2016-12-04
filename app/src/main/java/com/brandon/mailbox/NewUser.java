@@ -130,7 +130,7 @@ public class NewUser extends AppCompatActivity {
                     @Override
                     public void run() {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 25, baos);
                         byte[] d = baos.toByteArray();
 
                         UploadTask uploadTask = imagesRef.putBytes(d);

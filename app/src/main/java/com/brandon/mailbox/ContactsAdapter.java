@@ -201,7 +201,6 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder>{
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.remove(f);
                     fragmentTransaction.commit();
-                    Log.d("asdf", "there is frag");
                 }
             }
         }

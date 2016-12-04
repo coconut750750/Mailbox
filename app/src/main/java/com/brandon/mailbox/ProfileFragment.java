@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class ProfileFragment extends Fragment {
@@ -65,8 +69,13 @@ public class ProfileFragment extends Fragment {
 
         name.setText(MainActivity.name);
 
-        ProfilePicTask profilePicTask = new ProfilePicTask(imageView);
-        profilePicTask.execute();
+        try {
+            Uri uri = MainActivity.user.getPhotoUrl();
+            ProfilePicTask profilePicTask = new ProfilePicTask(imageView, new URL(uri.toString()));
+            profilePicTask.execute();
+        } catch (MalformedURLException e) {
+        } catch (java.lang.NullPointerException e){
+        }
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://messenger-9a197.appspot.com");
         imagesRef = storageRef.child("profilepic/"+MainActivity.uid);
@@ -95,7 +104,8 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void run() {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+                        Log.d("asdf","asdf");
+                        scaleDown(imageBitmap, 1500).compress(Bitmap.CompressFormat.PNG, 100, baos);
                         byte[] d = baos.toByteArray();
 
                         UploadTask uploadTask = imagesRef.putBytes(d);
@@ -122,6 +132,18 @@ public class ProfileFragment extends Fragment {
             }
 
         }
+    }
+
+    public static Bitmap scaleDown(Bitmap realImage, float maxImageSize) {
+        float ratio = Math.min(maxImageSize / (float)realImage.getWidth(), maxImageSize / (float)realImage.getHeight());
+        int width = Math.round(ratio * (float)realImage.getWidth());
+        int height = Math.round(ratio * (float)realImage.getHeight());
+
+        Bitmap newBitmap = Bitmap.createScaledBitmap(realImage, width, height, true);
+
+        Log.d("ratio",""+ratio);
+
+        return newBitmap;
     }
 
 }
