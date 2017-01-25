@@ -1,5 +1,5 @@
 # Mailbox
-A messenging app for Android using Firebase
+A messenging app for Android using Firebase.
 
 
 #Features
