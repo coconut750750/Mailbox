@@ -1,9 +1,11 @@
-package com.brandon.mailbox;
+package com.brandon.mailbox.chat;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.brandon.mailbox.MainActivity;
 
 /***
  * Created by Brandon on 8/20/16.

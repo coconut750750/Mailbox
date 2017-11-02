@@ -26,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.brandon.mailbox.chat.ChatActivity;
+import com.brandon.mailbox.chat.ChatsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -338,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                 HashMap<String, Object> data = dataSnapshot.getValue(t);
                 if (data != null) {
                     for (String name : data.keySet()) {
-                        if (!chatNames.contains(name) && !chatNames.contains(name+ChatActivity.SEPARATOR)) {
+                        if (!chatNames.contains(name) && !chatNames.contains(name+ ChatActivity.SEPARATOR)) {
                             chatNames.add(name);
                             addChatToFile(name);
                         }

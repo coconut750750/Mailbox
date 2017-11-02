@@ -1,4 +1,4 @@
-package com.brandon.mailbox;
+package com.brandon.mailbox.chat;
 
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.brandon.mailbox.MainActivity;
+import com.brandon.mailbox.R;
 
 import java.util.ArrayList;
 

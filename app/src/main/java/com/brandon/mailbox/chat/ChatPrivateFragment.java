@@ -1,4 +1,4 @@
-package com.brandon.mailbox;
+package com.brandon.mailbox.chat;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.brandon.mailbox.MainActivity;
+import com.brandon.mailbox.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

@@ -1,4 +1,4 @@
-package com.brandon.mailbox;
+package com.brandon.mailbox.chat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.brandon.mailbox.MainActivity;
+import com.brandon.mailbox.R;
+
 import java.util.List;
 
 /***
  * Created by Brandon on 6/16/16.
  */
-class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
+public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
 
     private static List<String> chats;
 
@@ -39,7 +42,7 @@ class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder>{
         }
     }
 
-    ChatsAdapter (List<String> chats){
+    public ChatsAdapter (List<String> chats){
         ChatsAdapter.chats = chats;
     }
 

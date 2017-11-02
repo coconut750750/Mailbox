@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".chat.ChatActivity" />
         <activity android:name=".ContactAdd" />
         <activity android:name=".ContactList"></activity>
     </application>
