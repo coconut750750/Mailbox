@@ -105,7 +105,6 @@ public class Authentication extends AppCompatActivity {
         };
 
 
-
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
         mConnected  = mRootRef.child(".info/connected");
