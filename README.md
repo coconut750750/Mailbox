@@ -1,9 +1,14 @@
 # Mailbox
 A messenging app for Android using Firebase.
 
-#Features
--Need to chat with two different people efficiently? Swipe the screen to go to next chat.
+<img src="readme_images/readme1.png" width="30%" align="center"/> <img src="readme_images/readme2.png" width="30%" align="center"/>
+<img src="readme_images/readme3.png" width="30%" align="center"/>
 
--Secret messages. Double tap to reveal.
+## Features
+Need to chat with two different people efficiently? Swipe the screen to go to next chat.
 
--Secret chatting. All messages are secret.
+Secret messages.
+
+Double tap to reveal secret messages.
+
+Secret chatting. All messages are secret.
